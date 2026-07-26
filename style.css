@@ -1,0 +1,304 @@
+/* =========================================================
+   DESIGN TOKENS
+   Theme: "Almanac" — an old weather-observatory feel.
+   Deep dusk-indigo sky, parchment text, amber sun / teal rain
+   accents. Serif (Fraunces) for big numbers, sans (Work Sans)
+   for everything else.
+========================================================= */
+:root {
+  --indigo-950: #171a34;
+  --indigo-900: #232946;
+  --indigo-800: #2f355c;
+  --parchment: #eef0f7;
+  --parchment-dim: #b9bdd6;
+  --amber: #f4c869;
+  --teal: #6bc5b8;
+  --danger: #e88787;
+
+  --radius: 20px;
+  --font-display: "Fraunces", serif;
+  --font-body: "Work Sans", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--parchment);
+  min-height: 100vh;
+}
+
+/* The "sky" is the full-page gradient background.
+   Its class changes via JS depending on weather (clear / cloudy / rain)
+   so the whole page mood shifts with the forecast. */
+.sky {
+  min-height: 100vh;
+  padding: 32px 20px 60px;
+  background: linear-gradient(160deg, var(--indigo-950) 0%, var(--indigo-900) 55%, var(--indigo-800) 100%);
+  transition: background 0.6s ease;
+}
+
+.sky.rainy {
+  background: linear-gradient(160deg, #14213d 0%, #1d2b4f 55%, #26355e 100%);
+}
+
+.sky.clear {
+  background: linear-gradient(160deg, #1c1f3a 0%, #3a2f56 55%, #52406b 100%);
+}
+
+/* ===================== HEADER ===================== */
+.topbar {
+  max-width: 720px;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 0.02em;
+}
+
+.brand-mark {
+  color: var(--amber);
+  font-size: 22px;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 6px 8px 6px 18px;
+  flex: 1;
+  min-width: 240px;
+  max-width: 420px;
+}
+
+.search-form input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--parchment);
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+
+.search-form input::placeholder {
+  color: var(--parchment-dim);
+}
+
+.search-form button {
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: var(--parchment);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.search-form button:hover {
+  background: var(--amber);
+  color: var(--indigo-950);
+}
+
+/* ===================== STATUS (loading / error) ===================== */
+.status {
+  max-width: 720px;
+  margin: 24px auto;
+  text-align: center;
+  color: var(--parchment-dim);
+  font-size: 14px;
+  min-height: 20px;
+}
+
+.status.error {
+  color: var(--danger);
+}
+
+/* ===================== MAIN APP ===================== */
+.app {
+  max-width: 720px;
+  margin: 20px auto 0;
+}
+
+.hidden { display: none; }
+
+/* ---------- Current conditions card ---------- */
+.current {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius);
+  padding: 32px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  backdrop-filter: blur(6px);
+}
+
+.place {
+  font-family: var(--font-display);
+  font-size: 24px;
+  margin: 0;
+}
+
+.datetime {
+  margin: 4px 0 20px;
+  font-size: 13px;
+  color: var(--parchment-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.temp-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.temp {
+  font-family: var(--font-display);
+  font-size: 84px;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.unit {
+  font-family: var(--font-display);
+  font-size: 28px;
+  margin-top: 10px;
+  color: var(--parchment-dim);
+}
+
+.condition {
+  font-size: 16px;
+  margin: 8px 0 2px;
+}
+
+.feels-like {
+  font-size: 13px;
+  color: var(--parchment-dim);
+  margin: 0;
+}
+
+.current-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.weather-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--amber);
+}
+
+.weather-icon svg { width: 100%; height: 100%; }
+
+.stat-grid {
+  display: flex;
+  gap: 20px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--parchment-dim);
+}
+
+.stat-value {
+  font-size: 16px;
+  margin-top: 2px;
+}
+
+/* ---------- Forecast row ---------- */
+.forecast {
+  margin-top: 24px;
+}
+
+.forecast-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--parchment-dim);
+  margin: 0 0 10px 4px;
+}
+
+.forecast-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.forecast-day {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  padding: 16px 8px;
+  text-align: center;
+}
+
+.forecast-day .day-name {
+  font-size: 12px;
+  color: var(--parchment-dim);
+  margin: 0 0 8px;
+}
+
+.forecast-day .day-icon {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto 8px;
+  color: var(--amber);
+}
+
+.forecast-day .day-icon svg { width: 100%; height: 100%; }
+
+.forecast-day .day-temps {
+  font-size: 13px;
+  font-family: var(--font-display);
+}
+
+.forecast-day .day-temps .lo {
+  color: var(--parchment-dim);
+  margin-left: 4px;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 640px) {
+  .current { flex-direction: column; }
+  .current-right { align-items: flex-start; flex-direction: row-reverse; width: 100%; justify-content: space-between; }
+  .forecast-row { grid-template-columns: repeat(3, 1fr); }
+  .forecast-day:nth-child(n+4) { display: none; }
+  .temp { font-size: 64px; }
+}
+
+@media (max-width: 420px) {
+  .forecast-row { grid-template-columns: repeat(2, 1fr); }
+  .forecast-day:nth-child(3) { display: none; }
+}
